@@ -29,6 +29,7 @@ DEALINGS IN THE SOFTWARE.
 #if __cplusplus >= 201103L
 	#include <mutex>
 	using MutexAutoLock = std::lock_guard<std::mutex>;
+	using RecursiveMutexAutoLock = std::lock_guard<std::recursive_mutex>;
 #else
 
 #include "threading/mutex.h"
@@ -44,6 +45,11 @@ private:
 	Mutex &mutex;
 };
 
+class RecursiveMutexAutoLock: public MutexAutoLock
+{
+public:
+	RecursiveMutexAutoLock(Mutex &m) : MutexAutoLock(m){};
+};
 #endif
 
 #endif
